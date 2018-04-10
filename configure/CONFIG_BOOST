@@ -1,0 +1,20 @@
+BOOST_VERSION=1.63.0
+BOOST_TOP=$(PACKAGE_SITE_TOP)/boost/$(BOOST_VERSION)
+
+BUILDROOT_VERSION=buildroot-2016.11.1-
+
+BOOST_TOP_ARCH_default=$(BOOST_TOP)/$(patsubst linuxRT-%,$(BUILDROOT_VERSION)%,$(T_A))
+
+BOOST_TOP_ARCH_linuxRT-arm_zynq=$(BOOST_TOP)/$(BUILDROOT_VERSION)zynq
+
+BOOST_TOP_ARCH=$(or $(BOOST_TOP_ARCH_$(T_A)),$(BOOST_TOP_ARCH_default))
+
+BOOST_INCLUDES_default=$(BOOST_TOP_ARCH)/include
+boost_DIR_default=$(BOOST_TOP_ARCH)/lib
+
+BOOST_INCLUDES:=$(wildcard $(or $(BOOST_INCLUDES_$(T_A)),$(BOOST_INCLUDES_default)))
+boost_DIR:=$(wildcard $(or $(boost_DIR_$(T_A)),$(boost_DIR_default)))
+
+BOOST_LIBS+=
+
+INCLUDES+=$(addprefix -I,$(BOOST_INCLUDES))
